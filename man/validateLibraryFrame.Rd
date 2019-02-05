@@ -31,6 +31,17 @@ boolean
 \description{
 validate standard RNA-seq data: counts, design, metrics, and summary files.
 }
+\examples{
+\donttest{
+counts  <- read.csv(file="data/P239-1_CCLKLANXX_180806_combined_counts.csv", row.names=1)
+counts  <- counts[,order(colnames(counts))]
+design  <- read.csv(file="data/P239-1 Final Adjusted Annotation.csv", stringsAsFactors = F)
+libpattern <- "lib[0-9]+"
+colnames(counts)  <- str_extract(colnames(counts), libpattern)
+rownames(metrics) <- str_extract(rownames(metrics), libpattern)
+validateLibraryFrame(counts, metrics)
+}
+}
 \author{
 Scott R Presnell, \email{SPresnell@benaroyaresearch.org}
 }

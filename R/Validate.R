@@ -17,10 +17,19 @@
 #' @param metricsField metrics library field - either the row names, or a column in the dataframe
 #' @param summaryField metrics library field - either the row names, or a column in the dataframe
 #' 
-#' @return boolean
+#' @return boolean - side effect of stopping if names are not aligned.
 #' 
 #' @author Scott R Presnell, \email{SPresnell@@benaroyaresearch.org}
 #' 
+#' @examples
+#' \donttest{
+#' counts  <- read.csv(file="data/P239-1_CCLKLANXX_180806_combined_counts.csv", row.names=1)
+#' counts  <- counts[,order(colnames(counts))]
+#' design  <- read.csv(file="data/P239-1 Final Adjusted Annotation.csv", stringsAsFactors = F)
+#' libpattern <- "lib[0-9]+"
+#' colnames(counts)  <- str_extract(colnames(counts), libpattern)
+#' validateLibraryFrame(counts, design)
+#' }
 #' @export
 #' 
 validateLibraryFrame <- function(counts, design, countsField="colnames", designField="libraryId",
@@ -48,7 +57,7 @@ validateLibraryFrame <- function(counts, design, countsField="colnames", designF
 #' @author Scott R Presnell, \email{SPresnell@@benaroyaresearch.org}
 #' 
 #' @export
-validate_library_frame <- function(counts, design, countsField="colnames", designField="lib",
+validate_library_frame <- function(counts, design, countsField="colnames", designField="libid",
                                    metrics=metrics, summary=summary, metricsField="libid", summaryField="libid") {
   
   metricsNames <- NULL
