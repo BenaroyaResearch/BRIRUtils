@@ -26,7 +26,7 @@ validateLibraryFrame(counts, design, countsField = "colnames",
 \item{summaryField}{metrics library field - either the row names, or a column in the dataframe}
 }
 \value{
-boolean
+boolean - side effect of stopping if names are not aligned.
 }
 \description{
 validate standard RNA-seq data: counts, design, metrics, and summary files.
@@ -38,8 +38,7 @@ counts  <- counts[,order(colnames(counts))]
 design  <- read.csv(file="data/P239-1 Final Adjusted Annotation.csv", stringsAsFactors = F)
 libpattern <- "lib[0-9]+"
 colnames(counts)  <- str_extract(colnames(counts), libpattern)
-rownames(metrics) <- str_extract(rownames(metrics), libpattern)
-validateLibraryFrame(counts, metrics)
+validateLibraryFrame(counts, design)
 }
 }
 \author{

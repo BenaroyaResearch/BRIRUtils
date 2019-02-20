@@ -40,3 +40,23 @@ CamelNames <- function(names){
   return(newNames)
 }
 
+#Make a function for standardizing metrics/anno column names
+#' Convert data frame names to camelCase
+#'
+#' Convert column names of a data frame to camelCase by taking them all to lower case, and looking for word boundaries and makeing those upper case.
+#' Then trim off the white space.
+#'
+#' @param dframe dataframe whose names to convert to camelCase
+#'
+#' @return data frame with new names
+#'
+#' @author Scott R Presnell, \email{SPresnell@@benaroyaresearch.org}
+#'
+#' @export
+#' @import stringr magrittr
+#'
+
+CamelFrame <- function(dframe){
+  names(dframe) <- CamelNames(names(dframe))
+  return(dframe)
+}

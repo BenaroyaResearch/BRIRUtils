@@ -5,7 +5,7 @@
 \title{Validate Library names/locations in a Dataframe}
 \usage{
 validate_library_frame(counts, design, countsField = "colnames",
-  designField = "lib", metrics = metrics, summary = summary,
+  designField = "libid", metrics = metrics, summary = summary,
   metricsField = "libid", summaryField = "libid")
 }
 \arguments{
