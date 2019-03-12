@@ -18,7 +18,7 @@ if(getRversion() >= "3.1.0") utils::globalVariables(c("."))
 #' @export
 #' @import stringr magrittr
 #'
-CamelNames <- function(names){
+camelNames <- function(names){
   newNames <- names %>%
     stringr::str_to_lower() %>%
     stringr::str_replace_all(pattern="-", replacement="_") %>%
@@ -55,8 +55,7 @@ CamelNames <- function(names){
 #' @export
 #' @import stringr magrittr
 #'
-
-CamelFrame <- function(dframe){
-  names(dframe) <- CamelNames(names(dframe))
+camelFrame <- function(dframe){
+  names(dframe) <- camelNames(names(dframe))
   return(dframe)
 }

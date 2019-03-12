@@ -4,8 +4,8 @@
 \alias{validate_library_frame}
 \title{Validate Library names/locations in a Dataframe}
 \usage{
-validate_library_frame(counts, design, countsField = "colnames",
-  designField = "libid", metrics = metrics, summary = summary,
+validate_library_frame(counts, design, metrics = NULL, summary = NULL,
+  countsField = "colnames", designField = "libid",
   metricsField = "libid", summaryField = "libid")
 }
 \arguments{
@@ -13,13 +13,13 @@ validate_library_frame(counts, design, countsField = "colnames",
 
 \item{design}{design dataframe}
 
-\item{countsField}{counts library field - usually column names}
-
-\item{designField}{design library field - either the row names, or a column in the dataframe}
-
 \item{metrics}{metrics dataframe (optional)}
 
 \item{summary}{summary dataframe (optional)}
+
+\item{countsField}{counts library field - usually column names}
+
+\item{designField}{design library field - either the row names, or a column in the dataframe}
 
 \item{metricsField}{metrics library field - either the row names, or a column in the dataframe}
 

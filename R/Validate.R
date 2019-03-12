@@ -10,10 +10,10 @@
 #'
 #' @param counts counts dataframe
 #' @param design design dataframe
-#' @param countsField counts library field - usually column names
-#' @param designField design library field - either the row names, or a column in the dataframe
 #' @param metrics metrics dataframe (optional)
 #' @param summary summary dataframe (optional)
+#' @param countsField counts library field - usually column names
+#' @param designField design library field - either the row names, or a column in the dataframe
 #' @param metricsField metrics library field - either the row names, or a column in the dataframe
 #' @param summaryField metrics library field - either the row names, or a column in the dataframe
 #' 
@@ -32,11 +32,13 @@
 #' }
 #' @export
 #' 
-validateLibraryFrame <- function(counts, design, countsField="colnames", designField="libraryId",
-                                   metrics=NULL, summary=NULL, metricsField="libraryId", summaryField="libraryId") {
+validateLibraryFrame <- function(counts, design, metrics=NULL, summary=NULL,
+                                 countsField="colnames", designField="libraryId",
+                                 metricsField="libraryId", summaryField="libraryId") {
   
-    validate_library_frame(counts=counts, design=design, countsField=countsField, designField=designField,
-                           metrics=metrics, summary=summary, metricsField=metricsField, summaryField=summaryField)
+    validate_library_frame(counts=counts, design=design, metrics=metrics, summary=summary,
+                           countsField=countsField, designField=designField,
+                           metricsField=metricsField, summaryField=summaryField)
 }
 
 #' Validate Library names/locations in a Dataframe
@@ -45,10 +47,10 @@ validateLibraryFrame <- function(counts, design, countsField="colnames", designF
 #'
 #' @param counts counts dataframe
 #' @param design design dataframe
-#' @param countsField counts library field - usually column names
-#' @param designField design library field - either the row names, or a column in the dataframe
 #' @param metrics metrics dataframe (optional)
 #' @param summary summary dataframe (optional)
+#' @param countsField counts library field - usually column names
+#' @param designField design library field - either the row names, or a column in the dataframe
 #' @param metricsField metrics library field - either the row names, or a column in the dataframe
 #' @param summaryField metrics library field - either the row names, or a column in the dataframe
 #' 
@@ -57,24 +59,28 @@ validateLibraryFrame <- function(counts, design, countsField="colnames", designF
 #' @author Scott R Presnell, \email{SPresnell@@benaroyaresearch.org}
 #' 
 #' @export
-validate_library_frame <- function(counts, design, countsField="colnames", designField="libid",
-                                   metrics=metrics, summary=summary, metricsField="libid", summaryField="libid") {
+validate_library_frame <- function(counts, design, metrics=NULL, summary=NULL,
+                                   countsField="colnames", designField="libid",
+                                   metricsField="libid", summaryField="libid") {
   
   metricsNames <- NULL
   summaryNames <- NULL
-  
+
   if (countsField == "colnames") {
     countsNames <- colnames(counts)
-  } else if (countsField == "rownames")
+  } else if (countsField == "rownames") {
     countsNames <- rownames(counts)
-  
+  } else {
+    countsNames <- counts[[countsField]]
+  }
+    
   if (designField == "rownames") {
     designNames <- rownames(design)
   } else {
     designNames <- design[[designField]]
   }
 
-  if (!missing(metrics)) {
+  if (!is.null(metrics)) {
     if (metricsField == "rownames") {
       metricsNames <- rownames(metrics)
     } else {
@@ -82,7 +88,7 @@ validate_library_frame <- function(counts, design, countsField="colnames", desig
     }
   }
 
-  if (!missing(summary)) {
+  if (!is.null(summary)) {
     if (summaryField == "rownames") {
       summaryNames <- rownames(summary)
     } else {
@@ -131,22 +137,29 @@ validateLibraryNames <- function(countsNames, designNames, metricsNames = NULL, 
 #' @export
 validate_library_names <- function(countsNames, designNames, metricsNames = NULL, summaryNames = NULL) {
   
-  if (!all(countsNames == designNames)) {
+  if (!all(countsNames == designNames) || is.null(countsNames) || is.null(designNames) ||
+        is.na(countsNames) || is.na(designNames)) {
     print("counts names:"); print(countsNames)
     print("design names:"); print(designNames)
     stop("library field in counts is not aligned with library field in design")
   }
 
-  if (!all(countsNames == metricsNames)) {
-    print("counts names:"); print(countsNames)
-    print("metrics names:"); print(metricsNames)
-    stop("library field in counts is not aligned with library field in metrics")
+  if (!is.null(metricsNames)) {
+    if (!all(countsNames == metricsNames) || is.null(countsNames) || is.null(metricsNames) ||
+        is.na(countsNames) || is.na(metricsNames)) {
+      print("counts names:"); print(countsNames)
+      print("metrics names:"); print(metricsNames)
+      stop("library field in counts is not aligned with library field in metrics")
+    }
   }
   
-  if (!all(countsNames == summaryNames)) {
-    print("counts names:"); print(countsNames)
-    print("summary names:"); print(summaryNames)
-    stop("library field in counts is not aligned with library field in summary")
+  if (!is.null(summaryNames)) {
+    if (!all(countsNames == summaryNames)  || is.null(countsNames) || is.null(summaryNames) ||
+        is.na(countsNames) || is.na(metricsNames)) {
+      print("counts names:"); print(countsNames)
+      print("summary names:"); print(summaryNames)
+      stop("library field in counts is not aligned with library field in summary")
+    }
   }
   
   invisible(TRUE)
