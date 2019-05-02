@@ -21,6 +21,7 @@ if(getRversion() >= "3.1.0") utils::globalVariables(c("."))
 camelNames <- function(names){
   newNames <- names %>%
     stringr::str_to_lower() %>%
+    stringr::str_replace_all(pattern="[\ \t]++", replacement=" ") %>%
     stringr::str_replace_all(pattern="-", replacement="_") %>%
     # the dot operator in a closure after %>% means use the piped material here.
     { gsub("^(.)", "\\L\\1", ., perl=T) } %>%
